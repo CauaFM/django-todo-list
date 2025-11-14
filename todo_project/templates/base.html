@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ToDo App</title>
+</head>
+
+<body>
+  <header>
+    {% if user.is_authenticated %}
+      Logado como {{ user.username }} |
+      <a href="{% url 'logout' %}">Sair</a>
+    {% else %}
+      <a href="{% url 'login' %}">Entrar</a> |
+      <a href="{% url 'register' %}">Cadastrar</a>
+    {% endif %}
+  </header>
+
+  <hr>
+
+  {% block content %}
+  {% endblock %}
+</body>
+</html>
