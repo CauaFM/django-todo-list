@@ -15,11 +15,14 @@ def login_view(request):
         else:
             messages.error(request, "Usuário ou senha incorretos.")
 
-    return render(request, "login.html")
+    # passamos hide_nav=True para o template
+    return render(request, "login.html", {"hide_nav": True})
+
 
 def logout_view(request):
     logout(request)
     return redirect("login")
+
 
 def register_view(request):
     if request.method == "POST":
@@ -32,4 +35,5 @@ def register_view(request):
             User.objects.create_user(username=username, password=password)
             return redirect("login")
 
-    return render(request, "register.html")
+    # passamos hide_nav=True para o template
+    return render(request, "register.html", {"hide_nav": True})

@@ -4,22 +4,103 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ToDo App</title>
+
+  <style>
+    /* ======== HEADER ======== */
+    header {
+      width: 98%;
+      padding: 15px 40px; 
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.60);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      font-family: "Poppins", sans-serif;
+    }
+
+    header .user-box {
+      font-size: 17px;
+      font-weight: 600;
+      color: #444;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-right: 20px; 
+    }
+
+    header a {
+      text-decoration: none;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    /* Botão Sair */
+    .logout-btn {
+      background: linear-gradient(135deg, #ff6b6b, #d64040);
+      color: white;
+      border-radius: 10px; 
+      box-shadow: 0 4px 12px rgba(214, 64, 64, 0.4);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(214, 64, 64, 0.5);
+    }
+
+    /* Botões Login/Cadastro */
+    .login-btn {
+      color: #6c63ff;
+    }
+    .login-btn:hover {
+      color: #4a3fd9;
+    }
+
+    .register-btn {
+      color: #4cd3c2;
+    }
+    .register-btn:hover {
+      color: #35a89a;
+    }
+
+    /* Evitar que o conteúdo fique escondido atrás do header */
+    body {
+      padding-top: 80px !important;
+    }
+  </style>
 </head>
 
 <body>
-  <header>
-    {% if user.is_authenticated %}
-      Logado como {{ user.username }} |
-      <a href="{% url 'logout' %}">Sair</a>
-    {% else %}
-      <a href="{% url 'login' %}">Entrar</a> |
-      <a href="{% url 'register' %}">Cadastrar</a>
-    {% endif %}
-  </header>
 
-  <hr>
+  <header>
+    {# obter o nome da url atual (request precisa estar disponível nos context_processors) #}
+    {% with current_name=request.resolver_match.url_name %}
+      {% if not hide_nav and current_name != 'login' and current_name != 'register' %}
+
+        {% if user.is_authenticated %}
+          <div class="user-box">
+            <strong>Logado como {{ user.username }}</strong>
+            <a href="{% url 'logout' %}" class="logout-btn">Sair</a>
+          </div>
+        {% else %}
+          <a href="{% url 'login' %}" class="login-btn">Entrar</a>
+          <a href="{% url 'register' %}" class="register-btn">Cadastrar</a>
+        {% endif %}
+
+      {% endif %}
+    {% endwith %}
+  </header>
 
   {% block content %}
   {% endblock %}
+
 </body>
 </html>
