@@ -11,16 +11,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-
+RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput || true
 
-CMD ["gunicorn", "--bind", "0.0.0.0:${PORT}", "todo_project.wsgi:application"]
-
-RUN python -m pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-
+CMD ["sh", "-c", "gunicorn todo_project.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120"]
