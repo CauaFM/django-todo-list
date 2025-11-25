@@ -67,3 +67,4 @@ python manage.py collectstatic --noinput
 - O `STATIC_ROOT` é `staticfiles/` e é servido via WhiteNoise, adequado para Cloud Run.
 - Ajuste regras de firewall/domínio (Cloud Run custom domain) conforme necessidade.
 
+
