@@ -20,3 +20,7 @@ RUN python manage.py collectstatic --noinput
 
 CMD ["gunicorn", "--bind", "0.0.0.0:${PORT}", "todo_project.wsgi:application"]
 
+RUN python -m pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+
